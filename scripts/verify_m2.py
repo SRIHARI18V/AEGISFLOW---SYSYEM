@@ -7,6 +7,11 @@ import sys
 import urllib.request
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
+try:
+    import dotenv
+    dotenv.load_dotenv(ROOT / ".env")
+except ImportError:
+    pass
 FILES = [
     "ml/src/aegis_ml/features/definitions.py", "ml/src/aegis_ml/features/offline.py",
     "ml/src/aegis_ml/features/graph_features.py",
