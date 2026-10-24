@@ -47,3 +47,5 @@ data/raw/paysim/
 data/raw/ieee-cis/
 config/*.secret.yml
 kafka-data/
+# ---- M2 Python environment ----
+.venv-m2/
