@@ -130,6 +130,11 @@ def attach_graph(feat: pd.DataFrame, snapshots: pd.DataFrame) -> pd.DataFrame:
 
 def main():
     import sqlalchemy as sa
+    try:
+        import dotenv
+        dotenv.load_dotenv()
+    except ImportError:
+        pass
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", required=True)
     a = ap.parse_args()

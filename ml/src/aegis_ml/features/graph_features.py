@@ -90,6 +90,11 @@ def run_once(conn, r) -> int:
 def main():
     import psycopg
     import redis
+    try:
+        import dotenv
+        dotenv.load_dotenv()
+    except ImportError:
+        pass
     ap = argparse.ArgumentParser()
     ap.add_argument("--once", action="store_true")
     ap.add_argument("--interval-s", type=int, default=3600)
