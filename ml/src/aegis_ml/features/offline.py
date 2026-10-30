@@ -128,6 +128,33 @@ def attach_graph(feat: pd.DataFrame, snapshots: pd.DataFrame) -> pd.DataFrame:
     return merged.sort_values("index").set_index("index").rename_axis(None)[feat.columns]
 
 
+def build_point_in_time(df: pd.DataFrame, features=None, as_of_column: str = "ts") -> pd.DataFrame:
+    """Point-in-time feature matrix compiler for training and serving."""
+    tx = df.copy()
+    if "id" not in tx:
+        if "transaction_id" in tx:
+            tx["id"] = tx["transaction_id"].astype(str)
+        else:
+            tx["id"] = tx.index.astype(str)
+    if "ts" not in tx and as_of_column in tx:
+        tx["ts"] = tx[as_of_column]
+    if "account_id" not in tx:
+        tx["account_id"] = "unknown"
+    if "device_id" not in tx:
+        tx["device_id"] = None
+    if "ip_id" not in tx:
+        tx["ip_id"] = None
+
+    orig_order = tx["id"].tolist()
+    out = build(tx)
+    out = out.set_index("id").reindex(orig_order)
+    out.index = df.index
+
+    target_names = [f.name for f in features] if features is not None else D.FEATURE_LIST
+    cols = [c for c in target_names if c in out.columns]
+    return out[cols]
+
+
 def main():
     import sqlalchemy as sa
     try:
