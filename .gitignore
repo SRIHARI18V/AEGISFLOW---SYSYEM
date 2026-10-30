@@ -34,6 +34,7 @@ mlartifacts/
 data/raw/*
 data/interim/*
 data/processed/*
+data/features/*
 !data/**/.gitkeep
 !data/**/*.dvc
 
