@@ -1,0 +1,20 @@
+{
+  "smurfing": {
+    "episodes": 25,
+    "detected": 25,
+    "rate": 1.0
+  },
+  "layering": {
+    "episodes": 25,
+    "detected": 25,
+    "rate": 1.0
+  },
+  "round_tripping": {
+    "episodes": 25,
+    "detected": 25,
+    "rate": 1.0
+  },
+  "overall": {
+    "rate": 1.0
+  }
+}

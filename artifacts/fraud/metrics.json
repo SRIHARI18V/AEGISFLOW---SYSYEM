@@ -1,0 +1,126 @@
+{
+  "champion": "xgboost",
+  "feature_names": [
+    "txn_count_1m",
+    "amount_sum_minor_1m",
+    "txn_count_1h",
+    "amount_sum_minor_1h",
+    "txn_count_24h",
+    "amount_sum_minor_24h",
+    "txn_count_7d",
+    "amount_sum_minor_7d",
+    "distinct_devices_24h",
+    "distinct_ips_24h",
+    "device_accounts_7d",
+    "ip_accounts_7d",
+    "amount_zscore",
+    "seconds_since_prev",
+    "hour_of_day",
+    "day_of_week",
+    "graph_component_size",
+    "graph_dist_to_fraud",
+    "graph_risk_rank",
+    "graph_device_degree",
+    "cat__channel",
+    "cat__card_network",
+    "cat__card_type",
+    "cat__device_type",
+    "cat__email_domain",
+    "cat__region",
+    "amount",
+    "log_amount"
+  ],
+  "categorical": [
+    "channel",
+    "card_network",
+    "card_type",
+    "device_type",
+    "email_domain",
+    "region"
+  ],
+  "frequency_encoding": {
+    "channel": {
+      "W": 0.6771524980951344,
+      "C": 0.13261492688944523,
+      "R": 0.09114328217408657,
+      "H": 0.06004861942600051,
+      "S": 0.03904067341533326
+    },
+    "card_network": {
+      "visa": 0.6004499111062733,
+      "mastercard": 0.30336344835093065,
+      "discover": 0.05830702804687783,
+      "amex": 0.03787961249591815
+    },
+    "card_type": {
+      "debit": 0.7237037843329343,
+      "credit": 0.2762962156670658
+    },
+    "device_type": {
+      "desktop": 0.5513225209535213,
+      "mobile": 0.4486774790464787
+    },
+    "email_domain": {
+      "gmail.com": 0.43844562969413303,
+      "yahoo.com": 0.24375022676971084,
+      "hotmail.com": 0.14157686586118065,
+      "anonymous.info": 0.12764413482819928,
+      "mail.com": 0.04858314284677624
+    },
+    "region": {
+      "204": 0.1686078153913138,
+      "440": 0.16813613439280142,
+      "512": 0.1673016218569718,
+      "315": 0.16675737455099598,
+      "120": 0.16624941039875185,
+      "180": 0.16294764340916512
+    }
+  },
+  "results": {
+    "xgboost": {
+      "model": "xgboost",
+      "recall_at_1pct_fpr": 1.0,
+      "threshold_at_1pct_fpr": 0.09090909090909091,
+      "pr_auc": 0.9859432324235161,
+      "lift_over_rules": 1.650793650793651,
+      "ece": 0.0014582529438975367,
+      "cost_optimal": {
+        "threshold": 0.03389830508474576,
+        "missed_fraud_value": 0.0,
+        "friction_cost": 924.0,
+        "review_cost": 1734.0,
+        "total_cost": 2658.0,
+        "flag_rate": 0.039098965027396335
+      }
+    },
+    "lightgbm": {
+      "model": "lightgbm",
+      "recall_at_1pct_fpr": 0.9920159680638723,
+      "threshold_at_1pct_fpr": 0.043478260869565216,
+      "pr_auc": 0.9722928320660107,
+      "lift_over_rules": 1.6296296296296298,
+      "ece": 0.0024954839966848806,
+      "cost_optimal": {
+        "threshold": 0.03389830508474576,
+        "missed_fraud_value": 186214.57345841275,
+        "friction_cost": 756.0,
+        "review_cost": 1680.0,
+        "total_cost": 188650.57345841275,
+        "flag_rate": 0.03788135019955354
+      }
+    }
+  },
+  "baseline": {
+    "recall": 0.3772455089820359,
+    "fpr": 0.005251365354992298,
+    "threshold": 2.0,
+    "max_fpr": 0.01
+  },
+  "disparate_impact": {
+    "ratio": 0.0,
+    "lowest": "amount_0_50",
+    "highest": "amount_1000_inf",
+    "flag": true,
+    "note": "a gap tracking the cohort fraud rate is expected; an unexplained gap goes in the model card"
+  }
+}

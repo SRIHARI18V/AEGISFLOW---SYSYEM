@@ -56,7 +56,8 @@ def label_delay_mask(ts, reported_at, as_of, horizon_days: int = 30) -> np.ndarr
     whose label had not landed are excluded from training, not silently marked legit."""
     ts = pd.to_datetime(ts, utc=True)
     reported = pd.to_datetime(reported_at, utc=True)
-    as_of = pd.Timestamp(as_of, tz="UTC")
+    as_of = pd.Timestamp(as_of)
+    as_of = as_of.tz_localize("UTC") if as_of.tzinfo is None else as_of.tz_convert("UTC")
     matured = ts <= as_of - pd.Timedelta(days=horizon_days)
     known = reported.notna() & (reported <= as_of)
     return (matured | known).to_numpy()

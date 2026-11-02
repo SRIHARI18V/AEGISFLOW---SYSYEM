@@ -1,0 +1,174 @@
+{
+  "title": "AegisFlow M3 - fraud model evaluation",
+  "gates": [
+    {
+      "gate": "recall_at_1pct_fpr",
+      "pass": true,
+      "detail": "recall_at_1pct_fpr=1.0000 >= 0.5 [section 19 - absolute floor before anything ships] -> pass"
+    },
+    {
+      "gate": "lift_over_rules",
+      "pass": true,
+      "detail": "lift_over_rules=1.6508 >= 0.3 [objective 5.2 - beat the rules baseline by >= 30%] -> pass"
+    },
+    {
+      "gate": "pr_auc",
+      "pass": true,
+      "detail": "pr_auc=0.9859 >= 0.6 [section 14 - headline ranking quality] -> pass"
+    },
+    {
+      "gate": "ece",
+      "pass": true,
+      "detail": "ece=0.0015 <= 0.05 [section 14 - calibrated within 5 points] -> pass"
+    }
+  ],
+  "sections": [
+    {
+      "heading": "Champion: xgboost",
+      "metrics": {
+        "model": "xgboost",
+        "recall_at_1pct_fpr": 1.0,
+        "threshold_at_1pct_fpr": 0.09090909090909091,
+        "pr_auc": 0.9859432324235161,
+        "lift_over_rules": 1.650793650793651,
+        "ece": 0.0014582529438975367
+      },
+      "note": "Accuracy is deliberately absent. At a 3.5% fraud rate, approving everything scores 96.5%."
+    },
+    {
+      "heading": "Rules baseline (what we must beat)",
+      "metrics": {
+        "recall": 0.3772455089820359,
+        "fpr": 0.005251365354992298,
+        "threshold": 2.0,
+        "max_fpr": 0.01
+      }
+    },
+    {
+      "heading": "Calibration",
+      "rows": [
+        {
+          "bin": "[0.0,0.1)",
+          "n": 14238,
+          "predicted": 0.00021285746612906276,
+          "observed": 0.00042140750105351877
+        },
+        {
+          "bin": "[0.1,0.2)",
+          "n": 1,
+          "predicted": 0.12435781909433102,
+          "observed": 0.0
+        },
+        {
+          "bin": "[0.2,0.3)",
+          "n": 6,
+          "predicted": 0.25,
+          "observed": 0.16666666666666666
+        },
+        {
+          "bin": "[0.3,0.4)",
+          "n": 12,
+          "predicted": 0.3319750247372298,
+          "observed": 0.25
+        },
+        {
+          "bin": "[0.5,0.6)",
+          "n": 3,
+          "predicted": 0.5151980106912505,
+          "observed": 0.3333333333333333
+        },
+        {
+          "bin": "[0.6,0.7)",
+          "n": 28,
+          "predicted": 0.6350116185831298,
+          "observed": 0.39285714285714285
+        },
+        {
+          "bin": "[0.8,0.9)",
+          "n": 56,
+          "predicted": 0.886679292929293,
+          "observed": 0.7857142857142857
+        },
+        {
+          "bin": "[0.9,1.0)",
+          "n": 439,
+          "predicted": 1.0,
+          "observed": 0.9908883826879271
+        }
+      ]
+    },
+    {
+      "heading": "Cost curve",
+      "metrics": {
+        "threshold": 0.03389830508474576,
+        "missed_fraud_value": 0.0,
+        "friction_cost": 924.0,
+        "review_cost": 1734.0,
+        "total_cost": 2658.0,
+        "flag_rate": 0.039098965027396335
+      },
+      "note": "The cost-optimal threshold is what M4's threshold API is seeded with; it is almost never 0.5."
+    },
+    {
+      "heading": "Cohort slices (recall at 1% FPR)",
+      "rows": [
+        {
+          "cohort": "amount_0_50",
+          "n": 4392,
+          "recall": null
+        },
+        {
+          "cohort": "amount_50_250",
+          "n": 8397,
+          "recall": null
+        },
+        {
+          "cohort": "amount_250_1000",
+          "n": 1365,
+          "recall": null
+        },
+        {
+          "cohort": "amount_1000_inf",
+          "n": 629,
+          "recall": 0.0,
+          "fpr": 0.0
+        },
+        {
+          "cohort": "channel_W",
+          "n": 10184,
+          "recall": 1.0,
+          "fpr": 0.004977105315548477
+        },
+        {
+          "cohort": "channel_R",
+          "n": 1289,
+          "recall": 0.9941176470588236,
+          "fpr": 0.008936550491510277
+        },
+        {
+          "cohort": "channel_C",
+          "n": 1886,
+          "recall": 1.0,
+          "fpr": 0.002336448598130841
+        },
+        {
+          "cohort": "channel_S",
+          "n": 551,
+          "recall": 1.0,
+          "fpr": 0.0
+        }
+      ]
+    },
+    {
+      "heading": "Disparate-impact screen",
+      "metrics": {
+        "ratio": 0.0,
+        "lowest": "amount_0_50",
+        "highest": "amount_1000_inf",
+        "flag": true,
+        "note": "a gap tracking the cohort fraud rate is expected; an unexplained gap goes in the model card"
+      },
+      "note": "A gap that tracks the cohort fraud rate is expected. An unexplained gap goes in the model card, not in a silent fix."
+    }
+  ]
+}
