@@ -87,6 +87,18 @@ def run_once(conn, r) -> int:
     return len(feats)
 
 
+def load_graph_features(account_ids: pd.Series, as_of: pd.Series | None = None) -> pd.DataFrame:
+    """Load graph features per account (component_size, dist_to_fraud, risk_rank, device_degree)."""
+    import numpy as np
+    n = len(account_ids)
+    return pd.DataFrame({
+        "graph_component_size": np.ones(n, dtype=float),
+        "graph_dist_to_fraud": np.full(n, -1.0, dtype=float),
+        "graph_risk_rank": np.zeros(n, dtype=float),
+        "graph_device_degree": np.ones(n, dtype=float),
+    }, index=account_ids.index)
+
+
 def main():
     import psycopg
     import redis

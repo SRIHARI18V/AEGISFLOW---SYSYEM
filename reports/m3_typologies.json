@@ -1,0 +1,36 @@
+{
+  "title": "AegisFlow M3 - laundering typologies",
+  "gates": [
+    {
+      "gate": "typology detection >= 80% (objective 5.4)",
+      "pass": true,
+      "detail": "100.0%"
+    }
+  ],
+  "sections": [
+    {
+      "heading": "Detection by typology",
+      "rows": [
+        {
+          "typology": "smurfing",
+          "episodes": 25,
+          "detected": 25,
+          "rate": 1.0
+        },
+        {
+          "typology": "layering",
+          "episodes": 25,
+          "detected": 25,
+          "rate": 1.0
+        },
+        {
+          "typology": "round_tripping",
+          "episodes": 25,
+          "detected": 25,
+          "rate": 1.0
+        }
+      ],
+      "note": "An episode counts only when at least 30% of its member transactions were flagged."
+    }
+  ]
+}
